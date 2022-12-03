@@ -11,7 +11,7 @@
 # 例子
 - [单个视频](https://2481asd.bj.bcebos.com/?url=https://vod1.wobbay.xyz/normal/bangumi/Bocchi_the_Rock/01.webm)
 - [视频剧集](https://2481asd.bj.bcebos.com/?data=static/json/Bocchi_the_Rock.json)
-- [字幕](https://2481asd.bj.bcebos.com/?url=https://vod1.wobbay.xyz/normal/bangumi/%5BNC-Raws%5D%20%E7%94%B5%E9%94%AF%E4%BA%BA%20-%2008%20%28B-Global%203840x2160%20HEVC%20AAC%20MKV%29%20%5BFC96AF15%5D.mkv&subtitle=static/subtitle/Chainsaw_Man/08//subtitle.json)**似乎手机端没法更换字幕，所以还是建议直接链接字幕文件，或者将最合适的字幕设为 default **
+- [字幕](https://2481asd.bj.bcebos.com/?url=https://vod1.wobbay.xyz/normal/bangumi/%5BNC-Raws%5D%20%E7%94%B5%E9%94%AF%E4%BA%BA%20-%2008%20%28B-Global%203840x2160%20HEVC%20AAC%20MKV%29%20%5BFC96AF15%5D.mkv&subtitle=static/subtitle/Chainsaw_Man/08//subtitle.json) **似乎手机端没法更换字幕，所以还是建议直接链接字幕文件，或者将最合适的字幕设为default**
 
 # 参数
 - ?url= 播放单个视频链接  
@@ -25,7 +25,7 @@
         "url":"该剧集视频简介"  
     }]  
 }'  
--?subtitle= 字幕文件/字幕结构化数据
+- ?subtitle= 字幕文件/字幕结构化数据
 -- 可以直接提供字幕地址http://example.com/subtitle.vtt
 -- 也可以提供结构化数据
 >'{  
