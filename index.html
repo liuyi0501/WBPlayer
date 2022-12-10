@@ -270,7 +270,25 @@
         //全局化视频数据
         window.videoJson = response;
         
-        
+            if(response.type == "m3u8"){
+                window.playerConfig.parse= {
+                        type:'hls',
+                        loader:Hls,
+                        config: {
+                            debug:false,
+                        },
+                    };
+                }
+                
+            if(response.type == "flv"){
+                    window.playerConfig.parse= {
+                        type:'flv',
+                        loader:flvjs,
+                        config: {
+                            cors:true,
+                        },
+                    };
+                }
         
         //设置更换剧集的按钮和右侧弹出框
         window.playerConfig.custom.footerControls.push({
