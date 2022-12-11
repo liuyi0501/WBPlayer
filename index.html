@@ -4,6 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
         <title>Danmaku Example</title>
+        <meta name='referrer' content='no-referrer'>
         <meta name=description content="Danmaku Player">
         <link rel="stylesheet" href="./static/css/mui-player.min.css">
         <link rel="stylesheet" href="./static/css/muiplayer.css">
@@ -55,10 +56,34 @@
                     font-size: 36px; 
                     background: yellow;
                     }
+                .changeVideo {
+                    animation: name duration timing-function delay iteration-count direction;
+                    width: 200px;
+                    height: 46px;
+                    line-height: 46px;
+                    background: #2e82ff !important;
+                    color: #ffffff;
+                    font-size: 18px;
+                    border-radius: 27px;
+                    animation: zoomIn 1.5s infinite;
+                    text-align: center;
+                }
+                @keyframes zoomIn {
+                    50% {
+                     transform: scale(1.2);
+                    }
+                    100% {
+                     transform: scale(1);
+                    }
+                }
             </style>
-            <div id="changeVideo" style="color: white;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 100%;font-size: 16px;">
+            <br/>
+            <br/>
+            <div id="changeVideo" style="color: white;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 100%;font-size: 16px;width: 100%;">
                 
             </div>
+            <br/>
+            <br/>
         </template>
         <template slot="Danmaku">
             <div style="color: white;display: flex;flex-direction: column;align-items: center;justify-content: center;height: 100%;font-size: 16px;">
@@ -97,7 +122,14 @@
                 mp.showToast("不存在此剧集");
                 return;
             }
-            mp.reloadUrl(window.videoJson.video[id].url);
+            if(window.videoJson.type == "m3u8"){
+                //m3u8需要重新载入
+                mp.destroy();
+                window.playerConfig.src = window.videoJson.video[id].url;
+                $player.initCreateMuiplayer();
+            }else {
+                    mp.reloadUrl(window.videoJson.video[id].url);
+            }
             $danmaku.cmClear();
             var api = "https://danmaku.wobbay.xyz/dmku/?ac=dm&id=";
             axios.get(api+hex_md5(window.videoJson.video[id].url)).then(function(response){
@@ -215,9 +247,13 @@
                     _this.mp.showToast('加载中...');
                 });
                 _this.mp.on('ready',function(e) {
-                    
+                    let lastShowTime = localStorage.getItem($('video').attr('src'));
+                    if( lastShowTime ){
+                        mp.video().currentTime = lastShowTime;
+                        _this.mp.showToast({ message:'快进至上次播放时间', duration:3000, style:{} });
+                    }
                     if(window.videoJson)for ( o = 0; o < window.videoJson.video.length; o++ ){
-                        $("div#changeVideo").append('<button onclick="changeVideo('+o+')">'+window.videoJson.video[o].title+'</button>');
+                        $("div#changeVideo").append('<span  onclick="changeVideo('+o+')">'+window.videoJson.video[o].title+'</span>');
                     }
                     
                     _this.mp.video().addEventListener('play',function() {
@@ -253,7 +289,7 @@
 
                     $danmaku.CM.time(_this.mp.video().currentTime * 1000);
                     console.log('Polling => ' + (_this.mp.video().currentTime) + 's');
-                    
+                    localStorage.setItem($('video').attr('src'), _this.mp.video().currentTime)
                     //下面的是官方演示，会因为加载导致弹幕时间和播放时间不一样
                     //console.log('Polling => ' + (_this.playTime / 1000) + 's');
                     //$danmaku.CM.time(_this.playTime); // 通报播放时间
@@ -336,7 +372,14 @@
                         return;
                     }
                     $danmaku.cmClear();
-                    mp.reloadUrl(window.videoJson.video[ window.videoJson.currentVideo+1 ].url);
+                    if(window.videoJson.type == "m3u8"){
+                        //m3u8需要重新载入
+                        mp.destroy();
+                        window.playerConfig.src = window.videoJson.video[ window.videoJson.currentVideo+1 ].url;
+                        $player.initCreateMuiplayer();
+                    }else {
+                            mp.reloadUrl(window.videoJson.video[ window.videoJson.currentVideo+1 ].url);
+                        }
                     
                     var api = "https://danmaku.wobbay.xyz/dmku/?ac=dm&id=";
                     axios.get(api+hex_md5(window.videoJson.video[ window.videoJson.currentVideo+1 ].url)).then(function(response){
