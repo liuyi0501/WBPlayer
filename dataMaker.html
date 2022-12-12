@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>结构化数据自动生成</title>
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <script type="text/javascript">
+            function release() {
+                let title = document.getElementsByName('title')[0].value;
+                let type = "default";
+                for (q = 0; q < document.getElementsByName('type').length; q++) {
+                    if (document.getElementsByName('type')[q].checked == true) {
+                        type = document.getElementsByName('type')[q].value;
+                        break;
+                    }
+                }
+                let pic = document.getElementsByName('pic')[0].value;
+                let videosData = document.getElementById('videos').value;
+                videosDataFomat = videosData.split('\n');
+                let videos = []
+                for (i = 0; i < videosDataFomat.length; i++) {
+                    let video = videosDataFomat[i].split(' ');
+                    videos.push({
+                        title: video[0],
+                        url: video[1]
+                    })
+                }
+                let json = {
+                    title: title,
+                    type: type,
+                    pic: pic,
+                    video: videos
+                }
+                document.getElementById('result').value = JSON.stringify(json);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>结构化数据自动生成</h1>
+        <h2>表单</h2>
+        <div class="form">
+            <ul>
+                <li>
+                    Title:<input type="text" name="title" />
+                </li>
+                <li>
+                    Type:  
+                    <input type="radio" id="default" name="type" value="default" checked>
+                    <label for="default">default</label>
+                    <input type="radio" id="m3u8" name="type" value="m3u8">
+                    <label for="m3u8">m3u8</label>
+                </li>
+                <li>
+                    Picture:<input type="url" name="pic" />
+                </li>
+                <li>
+                    Video: 格式：名称 + 空格 + 链接 换行<br />
+                    <textarea rows="10" cols="50" id="videos"></textarea>
+                </li>
+                <li>
+                    <button onclick="release()">点击运行</button>
+                </li>
+            </ul>
+            Result：<br/>
+            <textarea rows="10" cols="50" id="result"></textarea>
+        </div>
+    </body>
+</html>

@@ -8,7 +8,8 @@
 - 支持播放M3U8和FLV
 - 设置多语言字幕（仅支持Webvtt格式）
 - 记忆播放（2022.12.11更新）
-
+- 其他：
+  - 视频结构化数据书写助手 dataMaker.html （2022.12.12更新）
 
 # 例子
 - [单个视频](https://player.ssrfun.com/?url=https://vod1.wobbay.xyz/normal/bangumi/Bocchi_the_Rock/01.webm)
